@@ -25,12 +25,14 @@ __NODES = [
 ]
 def start_service():
     msg = messagebox.showinfo("Service Start", "Start of Service Executed")
-
+    # INVOKE CALL TO API GW HERE...
 def stop_service():
     msg = messagebox.showinfo("Service Stop", "Stop of Service Executed")
+    # INVOKE CALL TO API GW HERE...
 
 def restart_service():
     msg = messagebox.showinfo("Service Restart", "Restart of Service Executed")
+    # INVOKE CALL TO API GW HERE...
 
 def status_gui():
         top = tk.Toplevel()
