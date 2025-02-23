@@ -43,7 +43,7 @@ def restart_service():
 def status_gui():
         while True:
             top = tk.Toplevel()
-            top.title("TERKPOSSIBLE STATUS GUI")
+            top.title("TEKPOSSIBLE STATUS GUI")
             canvas = tk.Canvas(top)
             canvas.delete("all")
             x_max_size = 1400
@@ -79,9 +79,8 @@ def status_gui():
                     x_location_2 += 180
             canvas.pack(fill=BOTH, expand=1)
             top.geometry(str(x_max_size) + "x" + str(rows*180))
-            top.mainloop()
-            time.sleep(10)
-            top.quit()
+        top.mainloop()
+
 
 window = tk.Tk()
 
