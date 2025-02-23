@@ -3,7 +3,7 @@ import json
 import os
 import time
 
-__parameter_name = ""
+__parameter_name = "cluster-host-list"
 ssm_client = boto3.client('ssm')
 
 parameter_server_list = ssm_client.get_parameter(
