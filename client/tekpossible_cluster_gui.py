@@ -41,6 +41,7 @@ def restart_service():
     print("REQUEST FOR CLUSTER RESTART - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=restart").text)
 
 def update_canvas_status(canvas, top):
+    global __rows
     while True:
         x_max_size = 1400
         x_location_1 = 20
@@ -78,6 +79,7 @@ def update_canvas_status(canvas, top):
         time.sleep(5)
 
 def status_gui():
+        global __rows
         top = tk.Toplevel()
         top.title("TEKPOSSIBLE STATUS GUI")
         canvas = tk.Canvas(top)
