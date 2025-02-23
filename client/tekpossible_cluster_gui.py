@@ -2,37 +2,33 @@ import boto3
 import tkinter as tk
 from tkinter import messagebox, BOTH, ttk
 import threading
-# ACTION/STATUS DEFINITIONS
+import requests
+import json
+
+# GLOBALS
 __STOPPED="#888"
 __UNHEALTHY = "#f00"
 __HEALTHY = "#0f0"
-__NODES = [
-    {"HOST": "172.16.31.134", "HEALTH": "STOPPED"},
-    {"HOST": "1.1.1.2", "HEALTH": "HEALTHY"},  
-    {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
-    {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"}, 
-    {"HOST": "1.1.1.1", "HEALTH": "STOPPED"},
-    {"HOST": "1.1.1.2", "HEALTH": "HEALTHY"},  
-    {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
-    {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"}, 
-    {"HOST": "1.1.1.1", "HEALTH": "STOPPED"},
-    {"HOST": "1.1.1.2", "HEALTH": "HEALTHY"},  
-    {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
-    {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"}, 
-    {"HOST": "1.1.1.5", "HEALTH": "HEALTHY"},
-    {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
-    {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"} 
-]
+__API_GW_SSM_PARAMETER = "api-gw-url"
+
+# EXAMPLE CLUSTER HEALTH RETURN
+# cluster_health = [
+#     {"HOST": "1.1.1.1", "HEALTH": "STOPPED"},
+#     {"HOST": "1.1.1.2", "HEALTH": "HEALTHY"},  
+#     {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
+#     {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"}
+# ]
 def start_service():
     msg = messagebox.showinfo("Service Start", "Start of Service Executed")
-    # INVOKE CALL TO API GW HERE...
+    print("REQUEST FOR CLUSTER START - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=start").text)
+
 def stop_service():
     msg = messagebox.showinfo("Service Stop", "Stop of Service Executed")
-    # INVOKE CALL TO API GW HERE...
+    print("REQUEST FOR CLUSTER STOP - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=stop").text)
 
 def restart_service():
     msg = messagebox.showinfo("Service Restart", "Restart of Service Executed")
-    # INVOKE CALL TO API GW HERE...
+    print("REQUEST FOR CLUSTER RESTART - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=restart").text)
 
 def status_gui():
         top = tk.Toplevel()
@@ -45,7 +41,9 @@ def status_gui():
         x_location_2 = 170
         y_location_2 = 170
         rows = 1 
-        for node in __NODES:
+        cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
+        cluster_health = json.loads(cluster_health_response)
+        for node in cluster_health:
             if x_location_1 + 150 > x_max_size:
                 x_location_1 =  20
                 x_location_2 =  170

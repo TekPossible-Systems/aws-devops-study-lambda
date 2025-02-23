@@ -66,6 +66,8 @@ export class AwsClusterCdkStack extends cdk.Stack {
       autoDeploy: true // why not, right - lets push to prod!
     });
 
+    
+
     const ssm_param_hosts = new ssm.StringParameter(this, 'ssm-cluster-host-list', {
       stringValue: "[\"0.0.0.0\"]",
       parameterName: 'cluster-host-list'
@@ -75,5 +77,12 @@ export class AwsClusterCdkStack extends cdk.Stack {
     // ssm_param_hosts.grantRead() EC2 Instances
     // ssm_param_hosts.grantWrite() EC2 Instances
 
+
+    const api_gw_url = new ssm.StringParameter(this, 'ssm-api-gw-url', {
+      stringValue: cluster_api.url + "v1/api",
+      parameterName: 'api-gw-url'
+    });
+
   }
+
 }
