@@ -42,7 +42,6 @@ def restart_service():
 
 def update_canvas_status(canvas, top):
     global __rows
-    print(__rows)
     while True:
         x_max_size = 1400
         x_location_1 = 20
