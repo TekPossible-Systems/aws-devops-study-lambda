@@ -53,7 +53,8 @@ def update_canvas_status(canvas, top):
             cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
             cluster_health = json.loads(cluster_health_response)
             print("HEALTH: " + str(cluster_health))
-            for node in cluster_health:
+            for host in cluster_health:
+                node = json.loads(host)
                 if x_location_1 + 150 > x_max_size:
                     x_location_1 =  20
                     x_location_2 =  170
