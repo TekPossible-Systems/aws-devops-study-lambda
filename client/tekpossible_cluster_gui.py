@@ -9,8 +9,15 @@ import json
 __STOPPED="#888"
 __UNHEALTHY = "#f00"
 __HEALTHY = "#0f0"
-__API_GW_SSM_PARAMETER = "api-gw-url"
+__parameter_name = "api-gw-url"
 
+# GET API ENDPOINT FROM AWS
+ssm_client = boto3.client('ssm')
+parameter_server_list = ssm_client.get_parameter(
+    Name=__parameter_name
+);
+
+__API_GW_SSM_PARAMETER = str(parameter_server_list["Parameter"]["Value"])
 # EXAMPLE CLUSTER HEALTH RETURN
 # cluster_health = [
 #     {"HOST": "1.1.1.1", "HEALTH": "STOPPED"},
@@ -18,6 +25,8 @@ __API_GW_SSM_PARAMETER = "api-gw-url"
 #     {"HOST": "1.1.1.3", "HEALTH": "UNHEALTHY"},      
 #     {"HOST": "1.1.1.4", "HEALTH": "UNHEALTHY"}
 # ]
+
+
 def start_service():
     msg = messagebox.showinfo("Service Start", "Start of Service Executed")
     print("REQUEST FOR CLUSTER START - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=start").text)

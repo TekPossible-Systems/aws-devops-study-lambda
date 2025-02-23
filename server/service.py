@@ -9,7 +9,7 @@ ssm_client = boto3.client('ssm')
 parameter_server_list = ssm_client.get_parameter(
     Name=__parameter_name
 )
-server_list = json.loads(parameter_server_list["Value"])
+server_list = json.loads(parameter_server_list["Parameter"]["Value"])
 
 server_list.append(os.popen('hostname -i').read().strip())
 
