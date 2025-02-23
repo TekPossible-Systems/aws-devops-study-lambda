@@ -79,7 +79,8 @@ def update_canvas_status(canvas, top):
             top.geometry(str(x_max_size) + "x" + str(__rows*180))
             top.update()
             time.sleep(5)
-        except:
+        except Exception as e:
+            print(e)
             print("Application has killed this thread successfully")
             sys.exit(0)
             

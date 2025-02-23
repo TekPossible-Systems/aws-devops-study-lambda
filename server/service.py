@@ -4,7 +4,7 @@ import os
 import time
 
 __parameter_name = "cluster-host-list"
-ssm_client = boto3.client('ssm')
+ssm_client = boto3.client('ssm', region="us-east-2")
 
 parameter_server_list = ssm_client.get_parameter(
     Name=__parameter_name

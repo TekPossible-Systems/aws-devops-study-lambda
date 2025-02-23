@@ -17,28 +17,29 @@ def cluster_link_init():
 def cluster_health(hosts):
     responses = []
     for host in hosts:
-        host_data = requests.get("https://" + host + "/health")
+        host_data = requests.get("https://" + host + "/health", verify=False)
+        print(host_data)
         responses.append(host_data.text)
     return(responses)
 
 def cluster_start(hosts):
     responses = []
     for host in hosts:
-        host_data = requests.get("https://" + host + "/actions/start")
+        host_data = requests.get("https://" + host + "/actions/start", verify=False)
         responses.append(host_data.text)
     return(responses)
 
 def cluster_stop(hosts):
     responses = []
     for host in hosts:
-        host_data = requests.get("https://" + host + "/actions/stop")
+        host_data = requests.get("https://" + host + "/actions/stop", verify=False)
         responses.append(host_data.text)
     return(responses)
 
 def cluster_restart(hosts):
     responses = []
     for host in hosts:
-        host_data = requests.get("https://" + host + "/actions/restart")
+        host_data = requests.get("https://" + host + "/actions/restart", verify=False)
         responses.append(host_data.text)
     return(responses)
 
