@@ -44,7 +44,7 @@ def restart_service():
 def update_canvas_status(canvas, top):
     global __rows
     while True:
-        try:
+        # try:
             x_max_size = 1400
             x_location_1 = 20
             y_location_1 = 20
@@ -79,10 +79,10 @@ def update_canvas_status(canvas, top):
             top.geometry(str(x_max_size) + "x" + str(__rows*180))
             top.update()
             time.sleep(5)
-        except Exception as e:
-            print(e)
-            print("Application has killed this thread successfully")
-            sys.exit(0)
+        # except Exception as e:
+        #     print(e)
+        #     print("Application has killed this thread successfully")
+        #     sys.exit(0)
             
 def status_gui():
         global __rows
