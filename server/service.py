@@ -10,8 +10,9 @@ parameter_server_list = ssm_client.get_parameter(
     Name=__parameter_name
 )
 server_list = json.loads(parameter_server_list["Parameter"]["Value"])
-
-server_list.append(os.popen('hostname -i').read().strip())
+ip_address = os.popen('hostname -i').read().strip()
+if ip_address not in server_list:
+    server_list.append(ip_address   )
 
 update_param_response = ssm_client.put_parameter(
     Name=__parameter_name,

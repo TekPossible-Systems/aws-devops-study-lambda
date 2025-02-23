@@ -24,7 +24,7 @@ def get_health():
 @app.route("/actions/start")
 def start_service():
     print("SERVICE START REQUESTED")
-    os.system("systemctl start aws-cluster-project.service")
+    os.system("systemd-run --unit=aws-cluster-project.service /bin/python3 /root/service.py")
     return("{\"HOST\": \"" + get_ip_of_host() + "\", \"ACTION_STATE\":\"EXECUTED_START\"}")
 
 @app.route("/actions/stop")
