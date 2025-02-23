@@ -86,6 +86,7 @@ def status_gui():
         canvas_update = threading.Thread(update_canvas_status(canvas,top))
         canvas_update.run()
         top.mainloop()
+        canvas_update.join()
  
 
 
