@@ -1,4 +1,4 @@
-# Example Status Panel For AWS EC2 Hosts - Lambda /API GW Review
+# Status Panel For AWS EC2 Hosts - Lambda /API GW Review
 This was made to ensure I completely understood how to use lambda functions in VPCs, as well as API GW. It was also done to ensure that I could deploy these resources via the CDK, as that is my favorite IaC tool.
 Below is a screenshot of the service panel:
 
