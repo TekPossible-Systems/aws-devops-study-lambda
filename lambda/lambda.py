@@ -17,9 +17,13 @@ def cluster_link_init():
 def cluster_health(hosts):
     responses = []
     for host in hosts:
-        host_data = requests.get("https://" + host + "/health", verify=False)
-        print(host_data)
-        responses.append(host_data.text)
+        try:
+            host_data = requests.get("https://" + host + "/health", verify=False)
+            print(host_data)
+            responses.append(host_data.text)
+        except:
+            responses.append("{\"HOST\": \"" + host + "\", \"HEALTH\": \"UNHEALTHY\"}")
+    
     return(responses)
 
 def cluster_start(hosts):
