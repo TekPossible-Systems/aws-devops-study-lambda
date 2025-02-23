@@ -48,7 +48,8 @@ export class AwsClusterCdkStack extends cdk.Stack {
       vpcSubnets: cluster_vpc.selectSubnets({
         subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
       }),
-      layers: [lambda_layer]
+      layers: [lambda_layer],
+      timeout: cdk.Duration.seconds(10)
     });
 
     const api_gw_lambda_integration = new apigw_int.HttpLambdaIntegration('LAMBDA_API_INTG', lambda_function, {
