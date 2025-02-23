@@ -74,6 +74,9 @@ export class AwsClusterCdkStack extends cdk.Stack {
     });
 
     ssm_param_hosts.grantRead(lambda_function);
+
+
+    // TODO: Add ASG/EC2 instances
     // ssm_param_hosts.grantRead() EC2 Instances
     // ssm_param_hosts.grantWrite() EC2 Instances
 
