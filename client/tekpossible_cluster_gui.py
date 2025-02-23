@@ -43,40 +43,43 @@ def restart_service():
 def update_canvas_status(canvas, top):
     global __rows
     while True:
-        x_max_size = 1400
-        x_location_1 = 20
-        y_location_1 = 20
-        x_location_2 = 170
-        y_location_2 = 170
-        cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
-        cluster_health = json.loads(cluster_health_response)
-        print("HEALTH: " + str(cluster_health))
-        for node in cluster_health:
-            if x_location_1 + 150 > x_max_size:
-                x_location_1 =  20
-                x_location_2 =  170
-                y_location_1 += 180
-                y_location_2 += 180
-                __rows += 1
-            if node['HEALTH'] == "HEALTHY":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__HEALTHY, fill=__HEALTHY) 
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-            elif node['HEALTH'] == "UNHEALTHY":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__UNHEALTHY, fill=__UNHEALTHY)   
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-            elif node['HEALTH'] == "STOPPED":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__STOPPED, fill=__STOPPED)   
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-        canvas.pack(fill=BOTH, expand=1)
-        top.geometry(str(x_max_size) + "x" + str(__rows*180))
-        top.update()
-        time.sleep(5)
+        try:
+            x_max_size = 1400
+            x_location_1 = 20
+            y_location_1 = 20
+            x_location_2 = 170
+            y_location_2 = 170
+            cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
+            cluster_health = json.loads(cluster_health_response)
+            print("HEALTH: " + str(cluster_health))
+            for node in cluster_health:
+                if x_location_1 + 150 > x_max_size:
+                    x_location_1 =  20
+                    x_location_2 =  170
+                    y_location_1 += 180
+                    y_location_2 += 180
+                    __rows += 1
+                if node['HEALTH'] == "HEALTHY":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__HEALTHY, fill=__HEALTHY) 
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+                elif node['HEALTH'] == "UNHEALTHY":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__UNHEALTHY, fill=__UNHEALTHY)   
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+                elif node['HEALTH'] == "STOPPED":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__STOPPED, fill=__STOPPED)   
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+            canvas.pack(fill=BOTH, expand=1)
+            top.geometry(str(x_max_size) + "x" + str(__rows*180))
+            top.update()
+            time.sleep(5)
+        except:
+            print("Application has killed this thread successfully")
 
 def status_gui():
         global __rows
