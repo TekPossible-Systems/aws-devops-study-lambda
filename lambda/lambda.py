@@ -10,7 +10,6 @@ def cluster_link_init():
     parameter_server_list = ssm_client.get_parameter(
         Name=__parameter_name
     )
-    print(parameter_server_list["Parameter"])
     server_list = json.loads(parameter_server_list["Parameter"]["Value"])
     server_list.remove("0.0.0.0")
     return(server_list)

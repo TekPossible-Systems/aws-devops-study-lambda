@@ -4,6 +4,7 @@ from tkinter import messagebox, BOTH, ttk
 import threading
 import requests
 import json
+import time
 
 # GLOBALS
 __STOPPED="#888"
@@ -40,43 +41,47 @@ def restart_service():
     print("REQUEST FOR CLUSTER RESTART - RESULT:" + requests.get(__API_GW_SSM_PARAMETER + "?action=restart").text)
 
 def status_gui():
-        top = tk.Toplevel()
-
-        top.title("TERKPOSSIBLE STATUS GUI")
-        canvas = tk.Canvas(top)
-        x_max_size = 1400
-        x_location_1 = 20
-        y_location_1 = 20
-        x_location_2 = 170
-        y_location_2 = 170
-        rows = 1 
-        cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
-        cluster_health = json.loads(cluster_health_response)
-        for node in cluster_health:
-            if x_location_1 + 150 > x_max_size:
-                x_location_1 =  20
-                x_location_2 =  170
-                y_location_1 += 180
-                y_location_2 += 180
-                rows += 1
-            if node['HEALTH'] == "HEALTHY":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__HEALTHY, fill=__HEALTHY) 
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-            elif node['HEALTH'] == "UNHEALTHY":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__UNHEALTHY, fill=__UNHEALTHY)   
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-            elif node['HEALTH'] == "STOPPED":
-                canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__STOPPED, fill=__STOPPED)   
-                canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
-                x_location_1 += 180
-                x_location_2 += 180
-        canvas.pack(fill=BOTH, expand=1)
-        top.geometry(str(x_max_size) + "x" + str(rows*180))
-        top.mainloop()
+        while True:
+            top = tk.Toplevel()
+            top.title("TERKPOSSIBLE STATUS GUI")
+            canvas = tk.Canvas(top)
+            canvas.delete("all")
+            x_max_size = 1400
+            x_location_1 = 20
+            y_location_1 = 20
+            x_location_2 = 170
+            y_location_2 = 170
+            rows = 1 
+            cluster_health_response = requests.get(__API_GW_SSM_PARAMETER + "?action=health").text
+            cluster_health = json.loads(cluster_health_response)
+            print("HEALTH: " + cluster_health)
+            for node in cluster_health:
+                if x_location_1 + 150 > x_max_size:
+                    x_location_1 =  20
+                    x_location_2 =  170
+                    y_location_1 += 180
+                    y_location_2 += 180
+                    rows += 1
+                if node['HEALTH'] == "HEALTHY":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__HEALTHY, fill=__HEALTHY) 
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+                elif node['HEALTH'] == "UNHEALTHY":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__UNHEALTHY, fill=__UNHEALTHY)   
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+                elif node['HEALTH'] == "STOPPED":
+                    canvas.create_rectangle(x_location_1, y_location_1, x_location_2, y_location_2, outline=__STOPPED, fill=__STOPPED)   
+                    canvas.create_text((x_location_1 + x_location_2)/2, (y_location_1 + y_location_2)/2, text=node['HOST'], fill='black')              
+                    x_location_1 += 180
+                    x_location_2 += 180
+            canvas.pack(fill=BOTH, expand=1)
+            top.geometry(str(x_max_size) + "x" + str(rows*180))
+            top.mainloop()
+            time.sleep(10)
+            top.quit()
 
 window = tk.Tk()
 
