@@ -5,6 +5,7 @@ import threading
 import requests
 import json
 import time
+import sys
 
 # GLOBALS
 __STOPPED="#888"
@@ -80,7 +81,8 @@ def update_canvas_status(canvas, top):
             time.sleep(5)
         except:
             print("Application has killed this thread successfully")
-
+            sys.exit(0)
+            
 def status_gui():
         global __rows
         top = tk.Toplevel()
