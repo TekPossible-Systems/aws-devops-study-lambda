@@ -10,6 +10,8 @@ The GUI itself can start, stop, or restart the services on the registered cluste
 
 TODO: Add cert based authentication to the API GW and the client side requests. This is to protect the API gateway usage from an attacker.
 
+TODO: Fix mutlithreading in GUI so that parent properly kills all children recursively. 
+
 ![PANEL PICTURE](./img/gui.png)
 
 Below is an AWS architecture diagram of what was described above:
